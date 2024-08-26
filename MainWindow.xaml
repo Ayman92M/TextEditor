@@ -5,8 +5,144 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TextEditor"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="Text Editor" Height="450" Width="800"
+        AllowDrop="True"  Drop="TextBox_Drop" DragEnter="TextBox_DragEnter"
+        Icon="my_icon/texteditor_pencil.ico" Closing="MainWindow_Closing">
+
+
+    <Window.CommandBindings>
+        <CommandBinding Command="New"  Executed="MenuItem_Click"/>
+        <CommandBinding Command="Open" Executed="MenuItem_Click"/>
+        <CommandBinding Command="Save" Executed="MenuItem_Click"/>
+
+        <CommandBinding Command="ApplicationCommands.SaveAs" Executed="MenuItem_Click"/>
+        <CommandBinding Command="ApplicationCommands.Close"  Executed="MenuItem_Click"/>
+        <CommandBinding Command="Close"                      Executed="MenuItem_Click"/>
+
+        <CommandBinding Command="ApplicationCommands.Copy"  Executed="MenuItem_Click"/>
+        <CommandBinding Command="ApplicationCommands.Cut"   Executed="MenuItem_Click"/>
+        <CommandBinding Command="ApplicationCommands.Paste" Executed="MenuItem_Click"/>
+
+        <CommandBinding Command="ApplicationCommands.Help"  Executed="MenuItem_Click"/>
+    </Window.CommandBindings>
+
+    <Window.Resources>
+        <Style x:Key="MenuStyle" TargetType="StatusBarItem">
+            <Setter Property="BorderBrush" Value="DarkGray" />
+            <Setter Property="BorderThickness" Value="0,0,1,0" />
+            <Setter Property="Padding" Value="4,0,12,0" />
+        </Style>
+    </Window.Resources>
+    
+    
     <Grid>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="auto"></RowDefinition>
+        </Grid.RowDefinitions>
+
+
+        <Grid Grid.Row="0">
+
+            <Menu BorderBrush="DarkGray" BorderThickness="0,1,0,0">
+
+                <MenuItem Name ="Me" Header="File" >
+                    <MenuItem  Header="_New"  Command="New"  IsEnabled="True" >
+                        <MenuItem.Icon>
+                            <Image Source="my_icon/newfile.png" />
+                        </MenuItem.Icon>
+                    </MenuItem>
+
+
+                    <MenuItem  Header="_Open" Command="Open" >
+                        <MenuItem.Icon>
+                            <Image Source="my_icon/open.ico" />
+                        </MenuItem.Icon>
+                    </MenuItem>
+
+
+                    <MenuItem  Header="Save"  Command="Save">
+                        <MenuItem.Icon>
+                            <Image Source="my_icon/floppy_save.ico" />
+                        </MenuItem.Icon>
+                    </MenuItem>
+
+
+                    <MenuItem  Header="Save As" Command="ApplicationCommands.SaveAs" >
+                        <MenuItem.InputGestureText>Ctrl+Shift+S</MenuItem.InputGestureText>
+
+                        <MenuItem.Icon>
+                            <Image Source="my_icon/save_as.ico" />
+                        </MenuItem.Icon>
+
+                    </MenuItem>
+
+                    <Separator />
+                    <MenuItem Header="Exit" InputGestureText="Alt+F4" Command="ApplicationCommands.Close">
+                        <MenuItem.Icon>
+                            <Image Source="my_icon/exit.png" />
+                        </MenuItem.Icon>
+                    </MenuItem>
+                </MenuItem>
+
+                <MenuItem Header="Edit" >
+
+                    <MenuItem Command="ApplicationCommands.Cut">
+                        <MenuItem.Icon>
+                            <Image Source="my_icon/cut.ico" />
+                        </MenuItem.Icon>
+                    </MenuItem>
+
+                    <MenuItem Command="ApplicationCommands.Copy">
+                        <MenuItem.Icon>
+                            <Image Source="my_icon/copy.ico" />
+                        </MenuItem.Icon>
+                    </MenuItem>
+
+                    <MenuItem Command="ApplicationCommands.Paste">
+                        <MenuItem.Icon>
+                            <Image Source="my_icon/paste.ico" />
+                        </MenuItem.Icon>
+                    </MenuItem>
+
+                </MenuItem>
+
+                <MenuItem Header="Help" >
+                    <MenuItem Header="About" Command="ApplicationCommands.Help" >
+                        <MenuItem.Icon>
+                            <Image Source="my_icon/info.ico" />
+                        </MenuItem.Icon>
+                    </MenuItem>
+                </MenuItem>
+            </Menu>
+        </Grid>
+
+
+        <Grid Grid.Row="1" AllowDrop="True">
+            <TextBox Grid.Row="1" Name="MyTextBox" TextWrapping="Wrap"  VerticalScrollBarVisibility="Auto" 
+                     TextChanged="MyTextBoxHasChanged" AcceptsReturn="True" 
+                     AllowDrop="True" PreviewDrop="TextBox_Drop" PreviewDragOver="TextBox_DragEnter"/>
+        </Grid>
+
+        <Grid Grid.Row="2">
+            <StatusBar Name="statusBar">
+                <StatusBarItem Name="Status" Content="Status: Ready."  />
+
+                <StatusBarItem Style="{StaticResource MenuStyle}">
+                    <StackPanel Orientation="Horizontal" >
+                        <Image Name ="StatusIcon" Source="my_icon/Check2.png" Width="16" Height="16" />
+                    </StackPanel>
+                </StatusBarItem>
+
+
+                <StatusBarItem Name="TeckenCountIncludeWhitespace"  Content="0 Tecken include whitespace" Style="{StaticResource MenuStyle}"/>
+                <StatusBarItem Name="CharCountExcludingWhitespace"  Content="0 Tecken excluding whitespace" Style="{StaticResource MenuStyle}"/>
+                <StatusBarItem Name="WordCount"   Content="0 Words" Style="{StaticResource MenuStyle}"/>
+                <StatusBarItem Name ="LineCount"  Content="0 Line"  Style="{StaticResource MenuStyle}"/>
+            </StatusBar>
+        </Grid>
 
     </Grid>
 </Window>

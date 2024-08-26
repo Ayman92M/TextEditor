@@ -8,4 +8,12 @@
     <UseWPF>true</UseWPF>
   </PropertyGroup>
 
+  <ItemGroup>
+    <None Remove="my_icon\texteditor_pencil.ico" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="my_icon\texteditor_pencil.ico" />
+  </ItemGroup>
+
 </Project>

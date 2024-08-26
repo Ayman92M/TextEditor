@@ -20,5 +20,48 @@ namespace TextEditor
         {
             InitializeComponent();
         }
+
+        private void MenuItem_Click(object sender, ExecutedRoutedEventArgs e)
+        {
+
+            if (e.Command is RoutedCommand routedCommand)
+            {
+                string commandName = routedCommand.Name;
+                MessageBox.Show($" '{commandName}' executed!");
+
+            }
+
+        }
+
+        private void TextBox_DragEnter(object sender, DragEventArgs e)
+        {
+
+        }
+
+        private void TextBox_Drop(object sender, DragEventArgs e)
+        {
+
+        }
+
+        private void MainWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+
+        }
+
+        private void MyTextBoxHasChanged(object sender, TextChangedEventArgs e)
+        {
+
+        }
+
+        private void ShowMessage(string message, string title)
+        {
+            MessageBox.Show(message, title, MessageBoxButton.OK, MessageBoxImage.Information);
+        }
+    }
+
+
+    public class MyFile
+    {
+
     }
 }
