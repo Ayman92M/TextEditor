@@ -9,10 +9,36 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="my_icon\check2.png" />
+    <None Remove="my_icon\copy.ico" />
+    <None Remove="my_icon\cut.ico" />
+    <None Remove="my_icon\exit.png" />
+    <None Remove="my_icon\floppy_save.ico" />
+    <None Remove="my_icon\info.ico" />
+    <None Remove="my_icon\newfile.png" />
+    <None Remove="my_icon\open.ico" />
+    <None Remove="my_icon\paste.ico" />
+    <None Remove="my_icon\save_as.ico" />
     <None Remove="my_icon\texteditor_pencil.ico" />
   </ItemGroup>
 
   <ItemGroup>
+    <Resource Include="my_icon\save_as.ico" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="my_icon\copy.ico" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="my_icon\check2.png" />
+    <Resource Include="my_icon\cut.ico" />
+    <Resource Include="my_icon\exit.png" />
+    <Resource Include="my_icon\floppy_save.ico" />
+    <Resource Include="my_icon\info.ico" />
+    <Resource Include="my_icon\newfile.png" />
+    <Resource Include="my_icon\open.ico" />
+    <Resource Include="my_icon\paste.ico" />
     <Resource Include="my_icon\texteditor_pencil.ico" />
   </ItemGroup>
 
