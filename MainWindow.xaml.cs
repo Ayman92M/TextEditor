@@ -144,14 +144,80 @@ namespace TextEditor
             MessageBox.Show(message, title, MessageBoxButton.OK, MessageBoxImage.Information);
         }
 
+        // Handles the event when a drag-and-drop operation starts.
         private void TextBox_DragEnter(object sender, DragEventArgs e)
         {
+            e.Handled = true;
+
+            if (e.Data.GetDataPresent(DataFormats.FileDrop))
+                e.Effects = DragDropEffects.Copy;
+
+            else
+                e.Effects = DragDropEffects.None;
+
+            // Ställ in muspekaren baserat på den valda effekten. 
+            Mouse.SetCursor(e.Effects == DragDropEffects.Copy ? Cursors.Cross : Cursors.No);
 
         }
 
+        // Set the mouse cursor based on the selected effect.
         private void TextBox_Drop(object sender, DragEventArgs e)
         {
 
+            // try to avoid crashes if the file format is invalid, contains something invalid,
+            // or if the user doesn't have permissions to read it.
+            try
+            {
+                if (e.Data.GetDataPresent(DataFormats.FileDrop))
+                {
+                    string[] _files = (string[])e.Data.GetData(DataFormats.FileDrop);
+
+                    // Ensure that it is only one file and that it is a ".txt"
+                    if (_files.Length == 1 && _files[0].EndsWith(".txt"))
+                    {
+                        string fileContent = System.IO.File.ReadAllText(_files[0]);
+
+                        // Case ControlKey
+                        if (e.KeyStates == DragDropKeyStates.ControlKey)
+                            MyTextBox.Text += fileContent;
+
+                        // Case ShiftKey
+                        else if (e.KeyStates == DragDropKeyStates.ShiftKey)
+                        {
+                            int insertionIndex = MyTextBox.CaretIndex;
+                            MyTextBox.Text = MyTextBox.Text.Insert(insertionIndex, fileContent);
+                            MyTextBox.CaretIndex = insertionIndex + fileContent.Length;
+                        }
+
+                        // Default Case
+                        else
+                        {
+                            if (myfile.HasChanged)
+                            {
+                                MessageBoxResult userChoice = myfile.SaveChanges();
+                                if (userChoice != MessageBoxResult.Cancel)
+                                {
+                                    MyTextBox.Text = fileContent;
+                                    myfile = new MyFile(this, myfile.GetFileNameFromPath(_files[0]), _files[0]);
+                                }
+                            }
+                            else
+                            {
+                                MyTextBox.Text = fileContent;
+                                myfile = new MyFile(this, myfile.GetFileNameFromPath(_files[0]), _files[0]);
+                            }
+                        }
+
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"An error occurred: {ex.Message}",
+                    "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+
+            e.Handled = true;
         }
     }
 
@@ -205,7 +271,7 @@ namespace TextEditor
             Saved = true;
             HasChanged = false;
             UpdateTiltle(FileName);
-            UpdateStatusBar("Status: Ready!",MyFile.StatusIcon.Ready);
+            UpdateStatusBar("Status: Ready!", MyFile.StatusIcon.Ready);
         }
 
 
